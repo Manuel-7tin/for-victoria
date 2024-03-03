@@ -1,3 +1,7 @@
-The codes I helpmy cousi with would be stored here.
+# About this Repository
+The codes I help my dear cousin with would be stored here.
 
-I might add the coe i help others with in the near future.
+
+**Date:** 3rd of March 2024
+
+**Author:** The coolest man in the world(*ME*)
