@@ -1,6 +1,6 @@
 #include <stdio.h>
 //declares a macro to hold the value of expeted number of marks
-#define MAX_SCORES 6
+#define MAX_SCORES 60
 
 int main(void){
   int scores[MAX_SCORES];
