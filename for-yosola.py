@@ -47,7 +47,6 @@ else:
 # Note: The conversion formula given in the textbook is incorrect.
 # Note: I will use it anyway as it is best to follow instructions even if they do not make sense, at least in this case.
 # Note: Regardless i will put the correct formula as in inline comment, incase you prefer that.
-
 temp = int(input("Type in a temperature: "))
 unit = input("What unit is the temperature in? Celsius or Fahrenheit: ")
 if unit.lower() == "celsius":
@@ -73,3 +72,73 @@ elif temp_in_celsius == 100:
     print("The temperature is at the boiling point of water.")
 elif temp_in_celsius > 100:
     print("The temperature is above the boiling point.")
+
+# Question 3.1:
+for i in range(1, 11):
+    for j in range(1, 11):
+        n = i*j
+        print(" "*(3-len(str(n))), n, end=" |")
+    print()
+
+# Question 3.2:
+print("Input the required details to calculate the S.I.")
+principal = int(input("Principal amount: "))
+duration  = int(input("Time period (years): "))
+interest_rate = int(input("Interest rate per annum: "))
+if 1 <= principal <= 20 and duration == 2 and interest_rate == 5:
+    print("The simple interest is", (principal*duration*interest_rate)/100)
+else:
+    print("One of your inputs doesn't meet the requirements to perform the S.I operation.")
+
+# Question 3.3:
+scores = [13, 57, 55, 100, 17, 38, 7, 16, 37, 17, 100, 63, 66, 36, 49, 19, 79, 10, 7, 83, 80,
+          84, 20, 76, 8, 82, 76, 93, 12, 42, 36, 56, 51, 68, 74, 84, 82, 77, 29, 84, 32, 40, 78, 85, 73]
+grades = []
+for score in scores:
+    if 70 <= score <= 100:
+        grades.append("A")
+    elif 60 <= score <= 69:
+        grades.append("B")
+    elif 50 <= score <= 59:
+        grades.append("C")
+    elif  45<= score <= 49:
+        grades.append("D")
+    elif 40 <= score <= 44:
+        grades.append("E")
+    elif 0 <= score <= 39:
+        grades.append("F")
+print(scores, "\n", grades, sep="")
+
+# Question 3.4
+# Note compute the value of what in x? i'd just compute x's value.
+a = int(input("Input the value of a: "))
+b = int(input("Input the value of b: "))
+c = int(input("Input the value of c: "))
+discriminant = b**2 - 4*a*c
+positive_part = (-b + discriminant**0.5) / (2*a)
+negative_part = (-b - discriminant**0.5) / (2*a)
+if isinstance(positive_part, complex) or isinstance(negative_part, complex):
+    x = (positive_part, negative_part)
+else:
+    x = (round(positive_part, 2), round(negative_part, 2))
+print("The values of x are", x[0], "and", x[1])
+
+# Question 3.5:
+numbers = [i for i in range(1, 201) if i % 2 == 0]
+print(numbers)
+average = sum(numbers)/len(numbers)
+print("Average is:", average)
+
+# Question 3.6:
+num_of_items = int(input("How many items do you want to buy? "))
+if num_of_items < 10:
+    cost = 12
+elif 10 <= num_of_items  <= 99:
+    cost = 10
+else:
+    cost = 7
+print("The total cost is:", num_of_items*cost, "NGN")
+
+# Question 3.7:
+the_list = [int("1"*num) for num in range(1, 101)]
+print(the_list)
