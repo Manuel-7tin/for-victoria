@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # # Search task by task name
 # def find_task(task_name: str, filename: str) -> dict:
@@ -16,11 +16,19 @@ from datetime import datetime
 #     print(f"Found task {task.get("title")},  due by {task.get("due_date")}")
 # else:
 #     print("No such task")
-inp = input("-> ")
-time = datetime.strptime(inp, "%d/%m/%Y")
-# time = datetime.now()
-day_num = time.strftime("%d")
-month_full = time.strftime("%B")
-year_full = time.strftime("%Y")
-
-print(f"This task was created on the {day_num} {month_full}, year {year_full}.")
+a = {1: 5, 2: 6}
+b = a.copy()
+b[1] = 10
+print(a)
+print("1234567"[:-2])
+# inp = input("-> ")
+# time = datetime.strptime(inp, "%d/%m/%Y")
+# # time = datetime.now()
+# day_num = time.strftime("%d")
+# month_full = time.strftime("%B")
+# year_full = time.strftime("%Y")
+# exp = time.isoformat()
+# print(time<datetime.now())
+# print(exp, type(exp))
+# print(type(datetime.fromisoformat(exp)))
+# print(f"This task was created on the {day_num} {month_full}, year {year_full}.")

@@ -1,20 +1,32 @@
 [
     {
-        "title": "Sweeping",
-        "due_date": "28/7/2025",
+        "id": 1,
+        "username": "emma",
+        "title": "sweep",
+        "description": "good work",
+        "due_date": "2026-04-01T00:00:00",
         "priority": "Medium",
-        "status": "Pending"
+        "status": "Pending",
+        "archived": false
     },
     {
-        "title": "Sleeping",
-        "due_date": "28/7/2025",
-        "priority": "High",
-        "status": "Pending"
+        "id": 5,
+        "username": "bolu",
+        "title": "buy data",
+        "description": "ssnks",
+        "due_date": "",
+        "priority": "Unknown",
+        "status": "Pending",
+        "archived": false
     },
     {
-        "title": "Marriage",
-        "due_date": "28/7/2029",
-        "priority": "Low",
-        "status": "Pending"
+        "id": 5,
+        "username": "emma",
+        "title": "finale",
+        "description": "THe end aof a particular movie",
+        "due_date": "2026-12-12T00:00:00",
+        "priority": "Unknown",
+        "status": "Pending",
+        "archived": false
     }
 ]

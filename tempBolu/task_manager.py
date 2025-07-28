@@ -1,4 +1,7 @@
 import json
+from json.decoder import JSONDecodeError
+
+from models import Task
 
 class TaskTracker:
 
@@ -7,141 +10,100 @@ class TaskTracker:
         self.tasks = []
         self.name = "lingerie"
         self.welcome_msg = "Welcome to Your No'1 Personal Task Tracker"
+        self.load_tasks()
 
-    def add_task(self):
+    def add_task(self, name, title, description, due_date, priority):
+        task = Task(
+            task_id=len(self.tasks)+1,
+            user=name.lower(),
+            title=title.lower(),
+            desc=description,
+            due=due_date.isoformat(),
+            priority=priority,
+        )
+        # task = {
+        #     "title": title,
+        #     "due_date": due_date,
+        #     "priority": priority,
+        #     "status": "Pending"
+        # }
 
+        self.tasks.append(task.__json__())
+        self.save_tasks()
+        # self.display_task()
 
-            task = {
-                "title": title,
-                "due_date": due_date,
-                "priority": priority,
-                "status": "Pending"
-            }
-
-            tasks.append(task)
-
-        self.displayTask()
-
-    def displayTask(self):
-        print('\nYour Tasks:')
-
-        if not tasks:
-            print("No tasks added yet.\n")
-        else:
-            for index, task in enumerate(tasks):
-                print(
-                    f"{index + 1}: {task['title']} | Due: {task['due_date']} | Priority: {task['priority']} | Status: {task['status']}")
-
-        while True:
-            something_else = input('Would you like to do something else? (y/n): ').strip().lower()
-            if something_else == "y":
-                self.new_operation()
-                return
-            elif something_else == "n":
-                print('👋 Have a productive day.')
-                return
-            else:
-                print("Invalid input. Try again.")
-                return
+    def display_task(self, name):
+        the_task = []
+        for task in self.tasks:
+            if task.get("username") == name.lower():
+                a_task = task.copy()
+                a_task["due_date"] = a_task["due_date"][:-9]
+                the_task.append(a_task)
+        return the_task
 
     # Function to remove task
-    def remove_task(self, all_task):
-        try:
-            task_num = int(input('Enter the task number you want to delete: '))
-            if 1 <= task_num <= len(all_task):
-                removed = all_task.pop(task_num - 1)
-                print(f"Task '{removed}' deleted successfully.")
+    def remove_task(self, task_id):
+        index = None
+        if 1 <= task_id <= len(self.tasks):
+            for index, task in enumerate(self.tasks):
+                if task["id"] == task_id:
+                    break
+            if isinstance(index, int):
+                removed = self.tasks.pop(index)
+                self.save_tasks()
+                return removed
             else:
-                print("Task number out of range.")
-        except ValueError:
-            print("Invalid input. Enter a number.")
+                return False
+        else:
+            return False
 
-        while True:
-            something_else = input("Would you like to do something else? (y/n): ").strip().lower()
 
-            if something_else == 'y':
-                self.new_operation(tasks)
-                return
-            elif something_else == 'n':
-                print("👋 Have a productive day.")
-                return
-            else:
-                print("Invalid input. Try again.")
-                return
 
     # Update Task
-    def update_task(self):
-        self.displayTask()
-        try:
-            task_num = int(input("Enter the task number to update/mark as done: "))
-            if 1 <= task_num <= len(tasks):
-                task = tasks[task_num - 1]
+    def mark_task(self, task_id):
+        task = [task for task in self.tasks if task.get('id') == task_id][0]
+        task['status'] = 'Done'
+        self.save_tasks()
+        # self.load_tasks()
+        
+        
+    def change_date(self, task_id, date):
+        task = [task for task in self.tasks if task.get('id') == task_id][0]
+        task["due_date"] = date.isoformat()
+        self.save_tasks()
+        
+    
+    def change_priority(self, task_id, priority):
+        task = [task for task in self.tasks if task.get('id') == task_id][0]
+        task["priority"] = priority
+        self.save_tasks()
 
-                print("What do you want to update?")
-                print("1. Mark as Done")
-                print("2. Change Due Date")
-                print("3. Change Priority")
-
-                choice = input("Enter option number: ").strip()
-
-                if choice == '1':
-                    task['status'] = 'Done'
-                    print("Task marked as done.")
-                elif choice == '2':
-                    task['due_date'] = input("New due date (dd/mm/yyyy): ")
-                elif choice == '3':
-                    new_priority = input("New priority (L/M/H): ").strip().upper()
-                    if new_priority == 'L':
-                        task['priority'] = 'Low'
-                    elif new_priority == 'M':
-                        task['priority'] = 'Medium'
-                    elif new_priority == 'H':
-                        task['priority'] = 'High'
-                    else:
-                        print("Invalid priority.")
-                else:
-                    print("Invalid option.")
-            else:
-                print("Task number out of range.")
-        except ValueError:
-            print("Please enter a valid number.")
-
-        # Ask for next action
-        while True:
-            something_else = input("Would you like to do something else? (y/n): ").strip().lower()
-            if something_else == 'y':
-                self.new_operation()
-                return
-            elif something_else == 'n':
-                print("👋 Have a productive day.")
-                return
-            else:
-                print("Invalid input. Try again.")
-                return
 
     # load task
     def load_tasks(self, filename="tasks.json"):
-        global tasks  # allow updating the tasks list
+        # global tasks  # allow updating the tasks list
         try:
             with open(filename, "r") as f:
-                tasks = json.load(f)
+                self.tasks = json.load(f)
             print("📁 Tasks loaded successfully.")
         except FileNotFoundError:
             print("🆕 No saved tasks found. Starting fresh.")
+        except JSONDecodeError:
+            self.tasks = []
 
 
     # save task
     def save_tasks(self, filename="tasks.json"):
         with open(filename, "w") as f:
-            json.dump(tasks, f, indent=4)
-        print("✅ Tasks saved.")
+            json.dump(self.tasks, f, indent=4)
+        # print("✅ Task saved.")
+        # self.load_tasks()
 
 
     # Search task by task name
-    def find_task(self, task_name: str, filename: str) -> dict:
-        with open(filename, mode="r") as json_file:
-            tasks = json.load(json_file)
-        for task in tasks:
-            if task_name.lower() == task.get("title").lower():
-                return task
-        return False
+    def search_tasks(self, task_name: str) -> list:
+        found = []
+        for task in self.tasks:
+            if task_name.lower() in task.get("title"):
+                found.append(task)
+        return found
